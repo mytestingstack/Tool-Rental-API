@@ -1,0 +1,503 @@
+{
+	"info": {
+		"_postman_id": "81c55592-20b7-454b-aed8-f368e3b6c629",
+		"name": "Tool RentalAPI",
+		"description": "# Simple Tool Rental API #\n\nThis API allows you to reserve a tool. \n\nThe API is available at `https://simple-tool-rental-api.glitch.me`\n\n## Endpoints ##\n\n- [Status](#Status)\n- [Tools](#Tools)\n  - [Get all tools](#Get-all-tools)\n  - [Get a single tool](#Get-a-single-tool)\n- [Orders](#Orders)\n  - [Get all orders](#Get-all-orders)\n  - [Get a single order](#Get-a-single-order)\n  - [Create a new order](#Create-a-new-order)\n  - [Update an order](#Update-an-order)\n  - [Delete an order](#Delete-an-order)\n- [API Authentication](#API-Authentication)\n  - [Register a new API client](#Register-a-new-API-client)\n\n## Status ##\n\n**`GET /status`**\n\nReturns the status of the API.\n\n- `UP` indicates that the API is running as expected.\n- `DOWN` indicates that the API is currently not working. \n\n## Tools ##\n\n### Get all tools ###\n\n**`GET /tools`**\n\nReturns a list of tools from the inventory. \n\n**Parameters**\n\n| Name       | Type    | In    | Description                                                                                                                                                     |\n|------------|---------|-------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------|\n| `category` | string  | query | Optional - Specifies the category of tools you want to be returned. It can be one of: ladders, plumbing, power-tools, trailers, electric-generators, lawn-care. |\n| `results`  | integer | query | Optional - Specifies the number of results you want. Must be number between 1 and 20. By default, only 20 tools will be displayed.                              |                                                               |\n| `available`| boolean | query | Optional - Specifies the availability of the tools. By default, all tools will be displayed.                                                                    |\n\n\n**Status codes**\n| Status code     | Description                                         |\n|-----------------|-----------------------------------------------------|\n| 200 OK          | Indicates a successful response.                    |\n| 400 Bad Request | Indicates that the parameters provided are invalid. |\n\n### Get a single tool ###\n\n**`GET /tools/:toolId`**\n\nReturns a single tool from the inventory. \n\n**Parameters**\n\n| Name             | Type    | In   | Description                                        |\n|------------------|---------|------|----------------------------------------------------|\n| `toolId`         | integer | path | Specifies the id of the tool you wish to retrieve. |\n| `user-manual`    | boolean | query| Optional - Returns the user manual in PDF format.  |\n\n\n**Status codes**\n\n| Status code     | Description                                            |\n|-----------------|--------------------------------------------------------|\n| 200 OK          | Indicates a successful response.                       |\n| 404 Not found   | Indicates that there is no tool with the specified id. |\n\n## Orders ##\n\n### Get all orders ###\n\nReturns all orders created by the API client. \n\n**`GET /orders`**\n\n**Parameters**\n\n| Name           | Type    | In     | Description                                   |\n|----------------|---------|--------|-----------------------------------------------|\n| `Authorization`| string  | header | Specifies the bearer token of the API client. |\n\n**Status codes**\n\n| Status code      | Description                                                                                         |\n|------------------|-----------------------------------------------------------------------------------------------------|\n| 200 OK           | Indicates a successful response.                                                                    |\n| 401 Unauthorized | Indicates that request has not been authenticated. Check the response body for additional details.  |\n\n\n### Get a single order ###\n\nReturns a single order.\n\n**`GET /orders/:orderId`**\n\n**Parameters**\n\n| Name            | Type    | In     | Description                                   |\n|-----------------|---------|--------|-----------------------------------------------|\n| `Authorization` | string  | header | Specifies the bearer token of the API client. |\n| `invoice`       | boolean | query  | Optional - Shows the PDF invoice              |\n\n**Status codes**\n\n| Status code      | Description                                                                                         |\n|------------------|-----------------------------------------------------------------------------------------------------|\n| 200 OK           | Indicates a successful response.                                                                    |\n| 401 Unauthorized | Indicates that request has not been authenticated. Check the response body for additional details.  |\n| 404 Not found    | Indicates that there is no order with the specified id associated with the API client.              |\n\n\n### Create a new order ###\n\n**`POST /orders`**\n\n**Parameters**\n\n| Name            | Type    | In     | Description                                   |\n|-----------------|---------|--------|-----------------------------------------------|\n| `Authorization` | string  | header | Specifies the bearer token of the API client. |\n| `toolId`        | integer | body   | Specifies the tool id.                        |\n| `customerName`  | string  | body   | Specifies the name of the customer.           |\n| `comment`       | string  | body   | Optional. Specifies a comment.                |\n\n**Status codes**\n\n| Status code      | Description                                                                                         |\n|------------------|-----------------------------------------------------------------------------------------------------|\n| 201 Created      | Indicates that the order has been created successfully.                                             |\n| 400 Bad Request  | Indicates that the parameters provided are invalid.                                                 |\n| 401 Unauthorized | Indicates that request has not been authenticated. Check the response body for additional details.  |\n\nExample request body:\n\n ```\n{\n  \"toolId\": 1643,\n  \"customerName\": \"John Doe\"\n}\n```\n\n### Update an order ###\n\n**`PATCH /orders/:orderId`**\n\n**Parameters**\n\n| Name            | Type    | In     | Description                                   |\n|-----------------|---------|--------|-----------------------------------------------|\n| `Authorization` | string  | header | Specifies the bearer token of the API client. |\n| `customerName`  | string  | body   | Optional. Specifies the name of the customer. |\n| `comment`       | string  | body   | Optional. Specifies a comment.                |\n\n\n**Status codes**\n\n| Status code      | Description                                                                                         |\n|------------------|-----------------------------------------------------------------------------------------------------|\n| 204 No Content   | Indicates that the order has been updated successfully.                                             |\n| 400 Bad Request  | Indicates that the parameters provided are invalid.                                                 |\n| 401 Unauthorized | Indicates that request has not been authenticated. Check the response body for additional details.  |\n| 404 Not found    | Indicates that there is no order with the specified id associated with the API client.              |\n\nExample request body:\n\n ```\n{\n  \"customerName\": \"Joe Doe\"\n}\n```\n\n### Delete an order ###\n\n**`DELETE /orders/:orderId`**\n\n**Parameters**\n\n| Name            | Type    | In     | Description                                   |\n|-----------------|---------|--------|-----------------------------------------------|\n| `Authorization` | string  | header | Specifies the bearer token of the API client. |\n| `orderId`       | string  | path   | Specifies the order id.                       |\n\n\n\n**Status codes**\n\n| Status code      | Description                                                                                         |\n|------------------|-----------------------------------------------------------------------------------------------------|\n| 204 No Content   | Indicates that the order has been deleted successfully.                                             |\n| 400 Bad Request  | Indicates that the parameters provided are invalid.                                                 |\n| 401 Unauthorized | Indicates that request has not been authenticated. Check the response body for additional details.  |\n| 404 Not found    | Indicates that there is no order with the specified id associated to the API client.                |\n\n\n## API Authentication ##\n\nSome endpoints may require authentication. To submit or view an order, you need to register your API client and obtain an access token.\n\nThe endpoints that require authentication expect a bearer token sent in the `Authorization` header. \n\nExample:\n\n`Authorization: Bearer YOUR TOKEN`\n\n\n### Register a new API client ###\n\n\n**`POST /api-clients`**\n\nThe request body needs to be in JSON format.\n\n| Name         | Type   | In   | Description                                    |\n|--------------|--------|------|------------------------------------------------|\n| `clientName` | string | body | Specifies the name of the API client.          |\n| `clientEmail`| string | body | Specifies the email address of the API client. |\n\nNote: You don't need to provide a real email address. \n\n\n**Status codes**\n| Status code     | Description                                                                       |\n|-----------------|-----------------------------------------------------------------------------------|\n| 201 Created     | Indicates that the client has been registered successfully.                       |\n| 400 Bad Request | Indicates that the parameters provided are invalid.                               |\n| 409 Conflict    | Indicates that an API client has already been registered with this email address. |\n\n\nExample request body:\n\n ```\n {\n    \"clientName\": \"Postman\",\n    \"clientEmail\": \"valentin@example.com\"\n}\n ```\n \nThe response body will contain the access token.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "status",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "81a7c10c-fa85-45ed-9c7e-58af01e6e446",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Status code is UP\",()=>{\r",
+							"\r",
+							"const response= pm.response.json();\r",
+							"console.log(response.status);\r",
+							"pm.expect(response.status).to.eql(\"UP\");\r",
+							"\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"_postman_id": "74c3553d-b8d6-476d-9d5f-3e51bdfe89e8",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "{{baseUrl}}/status"
+			},
+			"response": []
+		},
+		{
+			"name": "Get all tools",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "04bd768a-6341-45d5-b9e4-3c459f69e93a",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"const response = pm.response.json();\r",
+							"\r",
+							"const tools = response.filter((tools)=>tools.inStock===true);\r",
+							"\r",
+							"const tool=tools[0];\r",
+							"\r",
+							"if (tool){\r",
+							"\r",
+							"pm.globals.set(\"toolid\",tool.id)\r",
+							"\r",
+							"}\r",
+							"\r",
+							"pm.test(\"Tool Found\",()=>{\r",
+							"\r",
+							"    pm.expect(tool).to.be.an('object');\r",
+							"    pm.expect(tool.inStock).to.eql(true);\r",
+							"    pm.expect(tool.inStock).to.be.true;\r",
+							"    pm.expect(tool.category).to.eql(pm.collectionVariables.get(\"category\"));\r",
+							"\r",
+							"});\r",
+							"\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"_postman_id": "61bf33da-e50b-4d00-a65d-07ff23ed19bc",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/tools?category={{category}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"tools"
+					],
+					"query": [
+						{
+							"key": "category",
+							"value": "trailers",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "available",
+							"value": "true",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "category",
+							"value": "{{category}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "{{baseUrl}}/tools?results",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "13667a6e-ee3c-4cea-86c8-f17accf0736e",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"_postman_id": "7c48ce04-2127-4b90-82c7-22784ba787ce",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/tools?results=10&category=ladders",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"tools"
+					],
+					"query": [
+						{
+							"key": "results",
+							"value": "10"
+						},
+						{
+							"key": "category",
+							"value": "ladders"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get specific tool id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "5c0639a5-d633-41b9-9a17-fc8019685eb3",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"const response= pm.response.json();\r",
+							"const toolid= response.id;\r",
+							"const stock= response[\"current-stock\"];\r",
+							"\r",
+							"console.log(stock);\r",
+							"\r",
+							"pm.test(\"Check Tool ID\", ()=>{\r",
+							"    \r",
+							"    pm.expect(toolid).to.be.eql(pm.globals.get(\"toolid\"));\r",
+							"\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Check Stock\", ()=>{\r",
+							"    \r",
+							"    pm.expect(stock).to.be.above(0);\r",
+							"\r",
+							"});\r",
+							"\r",
+							"postman.setNextRequest(\"Create order\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"_postman_id": "8dc9f934-5896-415f-82aa-905a1c20126a",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/tools/:toolId",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"tools",
+						":toolId"
+					],
+					"query": [
+						{
+							"key": "user-manual",
+							"value": "false",
+							"disabled": true
+						}
+					],
+					"variable": [
+						{
+							"key": "toolId",
+							"value": "{{toolid}}",
+							"type": "string"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Register Client",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "33ecda2f-3b70-430a-a79b-61151b868963",
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"_postman_id": "c470825f-881a-4483-be32-35f506555e7f",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"clientName\": \"Ayan\",\r\n   \"clientEmail\": \"Ayan@example.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{baseUrl}}/api-clients"
+			},
+			"response": []
+		},
+		{
+			"name": "Create order",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "cd0cdaf7-b737-4200-9c1a-c3706aa9e708",
+						"exec": [
+							"const response = pm.response.json();\r",
+							"pm.globals.set(\"orderid\",response.orderId);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"_postman_id": "df7fc985-65f8-45f2-b60e-43483486ec13",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "de43301103267dab0037d2c55c32d50fbcd688d2b481796e66bb0ec911ec83bf"
+					}
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n \"toolId\": {{toolid}},\r\n \"customerName\": \"{{$randomFullName}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{baseUrl}}/orders"
+			},
+			"response": []
+		},
+		{
+			"name": "Get all Orders",
+			"_postman_id": "11c55195-5e99-414c-9b20-0b5f88213b3a",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "de43301103267dab0037d2c55c32d50fbcd688d2b481796e66bb0ec911ec83bf"
+					}
+				},
+				"method": "GET",
+				"header": [],
+				"url": "{{baseUrl}}/orders"
+			},
+			"response": []
+		},
+		{
+			"name": "Get Single Order",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b5c5cd1d-fee3-4f5d-a8bb-df30503bb14f",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"_postman_id": "cfa605f7-fa1e-4eea-8f69-5f189e9db483",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "de43301103267dab0037d2c55c32d50fbcd688d2b481796e66bb0ec911ec83bf"
+					}
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/orders/:orderid",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"orders",
+						":orderid"
+					],
+					"query": [
+						{
+							"key": "invoice",
+							"value": "false",
+							"disabled": true
+						}
+					],
+					"variable": [
+						{
+							"key": "orderid",
+							"value": "XcvQNOcxBoz1VcJrr67Ax",
+							"type": "string"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update an Order",
+			"_postman_id": "d5fec61a-e64f-4d3d-bca9-8e546bebc5a1",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "de43301103267dab0037d2c55c32d50fbcd688d2b481796e66bb0ec911ec83bf"
+					}
+				},
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n \"customerName\": \"Mayur Patel\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/orders/:orderId",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"orders",
+						":orderId"
+					],
+					"variable": [
+						{
+							"key": "orderId",
+							"value": "MpWkBU8wsm1ksEXIBx2g1",
+							"type": "string"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete an Order",
+			"_postman_id": "415f3ade-5411-4ea3-8f0c-b559a152bca6",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "de43301103267dab0037d2c55c32d50fbcd688d2b481796e66bb0ec911ec83bf"
+					}
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/orders/:orderId",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"orders",
+						":orderId"
+					],
+					"variable": [
+						{
+							"key": "orderId",
+							"value": "{{orderid}}",
+							"type": "string"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "dbfa34d9-034d-40db-956d-c3e0f0477b12",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "31067b0e-28e6-468b-a860-dc83ea427c2b",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "7103dfd4-8749-43e3-8534-7039afe8a9f7",
+			"key": "baseUrl",
+			"value": "https://simple-tool-rental-api.glitch.me",
+			"type": "string"
+		},
+		{
+			"id": "ad284569-7219-4590-91a6-028663754fe5",
+			"key": "category",
+			"value": "trailers",
+			"type": "string"
+		}
+	]
+}
