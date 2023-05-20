@@ -30,7 +30,7 @@
 					}
 				}
 			],
-			"_postman_id": "74c3553d-b8d6-476d-9d5f-3e51bdfe89e8",
+			"id": "74c3553d-b8d6-476d-9d5f-3e51bdfe89e8",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
 			},
@@ -82,7 +82,7 @@
 					}
 				}
 			],
-			"_postman_id": "61bf33da-e50b-4d00-a65d-07ff23ed19bc",
+			"id": "61bf33da-e50b-4d00-a65d-07ff23ed19bc",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
 			},
@@ -135,7 +135,7 @@
 					}
 				}
 			],
-			"_postman_id": "7c48ce04-2127-4b90-82c7-22784ba787ce",
+			"id": "7c48ce04-2127-4b90-82c7-22784ba787ce",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
 			},
@@ -200,7 +200,7 @@
 					}
 				}
 			],
-			"_postman_id": "8dc9f934-5896-415f-82aa-905a1c20126a",
+			"id": "8dc9f934-5896-415f-82aa-905a1c20126a",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
 			},
@@ -226,8 +226,7 @@
 					"variable": [
 						{
 							"key": "toolId",
-							"value": "{{toolid}}",
-							"type": "string"
+							"value": "{{toolid}}"
 						}
 					]
 				}
@@ -250,7 +249,7 @@
 					}
 				}
 			],
-			"_postman_id": "c470825f-881a-4483-be32-35f506555e7f",
+			"id": "c470825f-881a-4483-be32-35f506555e7f",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
 			},
@@ -285,7 +284,7 @@
 					}
 				}
 			],
-			"_postman_id": "df7fc985-65f8-45f2-b60e-43483486ec13",
+			"id": "df7fc985-65f8-45f2-b60e-43483486ec13",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
 			},
@@ -313,7 +312,7 @@
 		},
 		{
 			"name": "Get all Orders",
-			"_postman_id": "11c55195-5e99-414c-9b20-0b5f88213b3a",
+			"id": "11c55195-5e99-414c-9b20-0b5f88213b3a",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
 			},
@@ -321,7 +320,7 @@
 				"auth": {
 					"type": "bearer",
 					"bearer": {
-						"token": "de43301103267dab0037d2c55c32d50fbcd688d2b481796e66bb0ec911ec83bf"
+						"token": "e88e08eee82ade2da6ffb4a5d82802bb6790467579a75e1cdb87b06b70e18713"
 					}
 				},
 				"method": "GET",
@@ -344,7 +343,7 @@
 					}
 				}
 			],
-			"_postman_id": "cfa605f7-fa1e-4eea-8f69-5f189e9db483",
+			"id": "cfa605f7-fa1e-4eea-8f69-5f189e9db483",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
 			},
@@ -376,8 +375,7 @@
 					"variable": [
 						{
 							"key": "orderid",
-							"value": "XcvQNOcxBoz1VcJrr67Ax",
-							"type": "string"
+							"value": "XcvQNOcxBoz1VcJrr67Ax"
 						}
 					]
 				}
@@ -386,7 +384,7 @@
 		},
 		{
 			"name": "Update an Order",
-			"_postman_id": "d5fec61a-e64f-4d3d-bca9-8e546bebc5a1",
+			"id": "d5fec61a-e64f-4d3d-bca9-8e546bebc5a1",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
 			},
@@ -420,8 +418,7 @@
 					"variable": [
 						{
 							"key": "orderId",
-							"value": "MpWkBU8wsm1ksEXIBx2g1",
-							"type": "string"
+							"value": "MpWkBU8wsm1ksEXIBx2g1"
 						}
 					]
 				}
@@ -430,7 +427,7 @@
 		},
 		{
 			"name": "Delete an Order",
-			"_postman_id": "415f3ade-5411-4ea3-8f0c-b559a152bca6",
+			"id": "415f3ade-5411-4ea3-8f0c-b559a152bca6",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
 			},
@@ -455,8 +452,7 @@
 					"variable": [
 						{
 							"key": "orderId",
-							"value": "{{orderid}}",
-							"type": "string"
+							"value": "{{orderid}}"
 						}
 					]
 				}
@@ -488,16 +484,14 @@
 	],
 	"variable": [
 		{
-			"id": "7103dfd4-8749-43e3-8534-7039afe8a9f7",
+			"id": "6b7b9c9b-2548-4f1d-ad73-4e6c8e622806",
 			"key": "baseUrl",
-			"value": "https://simple-tool-rental-api.glitch.me",
-			"type": "string"
+			"value": "https://simple-tool-rental-api.glitch.me"
 		},
 		{
-			"id": "ad284569-7219-4590-91a6-028663754fe5",
+			"id": "36b48d1e-3897-4a1b-818d-9e836aa6dee8",
 			"key": "category",
-			"value": "trailers",
-			"type": "string"
+			"value": "trailers"
 		}
 	]
 }
